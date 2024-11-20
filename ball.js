@@ -1,4 +1,4 @@
-import { width } from "./game";
+import { width, height } from "./game.js";
 
 export default class Ball {
   constructor() {
@@ -13,8 +13,14 @@ export default class Ball {
     this.xPos += this.xVelocity;
     this.yPos += this.yVelocity;
 
-    if (this.xPos - this.radius < 0 || this.xPos + this.radius < width) {
+    if (this.xPos - this.radius < 0 || this.xPos + this.radius > width) {
       console.log("hit wall");
+      this.xVelocity *= -1;
+    }
+
+    if (this.yPos - this.radius < 0 || this.yPos + this.radius > height) {
+      console.log("hit ground");
+      this.yVelocity *= -1;
     }
   }
 

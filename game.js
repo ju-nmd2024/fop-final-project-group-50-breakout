@@ -1,12 +1,14 @@
-import Platform from "./platform";
-import Brick from "./brick";
-import Ball from "./ball";
+import Platform from "./platform.js";
+import Brick from "./brick.js";
+import Ball from "./ball.js";
 
 export const width = 800;
 export const height = 600;
 let bricks = [];
 let ball;
 let platform;
+
+console.log(Ball);
 
 function setup() {
   createCanvas(800, 600);
