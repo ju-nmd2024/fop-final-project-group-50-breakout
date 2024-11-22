@@ -4,9 +4,9 @@ import Ball from "./ball.js";
 
 export const width = 800;
 export const height = 600;
-let bricks = [];
+export let bricks = [];
+export let platform;
 let ball;
-let platform;
 
 console.log(Ball);
 
@@ -35,5 +35,6 @@ function draw() {
   ball.update();
 
   platform.draw();
+  platform.update();
 }
 window.draw = draw;

@@ -1,12 +1,11 @@
-import { width, height } from "./game.js";
-
+import { width, height, platform, bricks } from "./game.js";
 export default class Ball {
   constructor() {
     this.xPos = 350;
     this.yPos = 500;
     this.radius = 10;
-    this.xVelocity = 1;
-    this.yVelocity = 1;
+    this.xVelocity = 5;
+    this.yVelocity = 5;
   }
 
   update() {
@@ -22,6 +21,18 @@ export default class Ball {
       console.log("hit ground");
       this.yVelocity *= -1;
     }
+
+    if (
+      this.xPos >= platform.xPos &&
+      this.xPos <= platform.xPos + platform.width &&
+      this.yPos + this.radius === platform.yPos
+    ) {
+      this.yVelocity *= -1;
+    }
+
+    //     for (let brick of bricks) {
+    // if (!brick.destroyed && this.xPos >= brick.xPos && this.)
+    //     }
   }
 
   draw() {
