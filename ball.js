@@ -30,11 +30,24 @@ export default class Ball {
       this.yVelocity *= -1;
     }
 
-    //     for (let brick of bricks) {
-    // if (!brick.destroyed && this.xPos >= brick.xPos && this.)
-    //     }
+    //brick check
+    for (let brick of bricks) {
+      if (
+        !brick.destroyed &&
+        this.xPos + this.radius >= brick.xPos &&
+        this.xPos - this.radius <= brick.xPos + brick.width &&
+        this.yPos + this.radius >= brick.yPos &&
+        this.yPos - this.radius <= brick.yPos + brick.height
+      ) {
+        this.yVelocity *= -1;
+        if (brick.hitpoints === 1) {
+          brick.destroyed = true;
+        } else {
+          brick.hitpoints -= 1;
+        }
+      }
+    }
   }
-
   draw() {
     fill(255, 255, 255);
     ellipse(this.xPos, this.yPos, 20, this.radius * 2);

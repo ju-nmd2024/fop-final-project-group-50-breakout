@@ -4,8 +4,9 @@ import Ball from "./ball.js";
 
 export const width = 800;
 export const height = 600;
-export let bricks = [];
 export let platform;
+export let bricks = [];
+let rowAmount = 4;
 let ball;
 
 console.log(Ball);
@@ -13,14 +14,20 @@ console.log(Ball);
 function setup() {
   createCanvas(800, 600);
   ball = new Ball();
-  for (let row = 0; row < 4; row++) {
+  platform = new Platform();
+
+  for (let rowNumber = 0; rowNumber < rowAmount; rowNumber++) {
     //row
-    for (let i = 0; i < 5; i++) {
-      bricks.push(new Brick(10 + i * 160, 0 + row * 50));
+    for (let brickNumber = 0; brickNumber < 5; brickNumber++) {
+      bricks.push(
+        new Brick(
+          10 + brickNumber * 160,
+          0 + rowNumber * 50,
+          rowAmount - rowNumber
+        )
+      );
     }
   }
-
-  platform = new Platform();
 }
 window.setup = setup;
 
