@@ -17,11 +17,16 @@ export default class Ball {
       this.xVelocity *= -1;
     }
 
-    if (this.yPos - this.radius < 0 || this.yPos + this.radius > height) {
+    if (this.yPos - this.radius < 0) {
       console.log("hit ground");
       this.yVelocity *= -1;
     }
-    if (this.yPos + this.radius > height) {
+    if (this.yPos + this.radius > height + 100) {
+      this.yPos = 500;
+      this.xPos = width / 2;
+      this.xVelocity = 5;
+      this.yVelocity = 5;
+      platform.xPos = width / 2 - platform.width / 2;
       decrementLives();
     }
 

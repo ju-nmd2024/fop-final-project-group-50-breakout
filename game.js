@@ -19,9 +19,13 @@ console.log(Ball);
 
 function setup() {
   createCanvas(800, 600);
+  createAssets();
+}
+window.setup = setup;
+
+function createAssets() {
   ball = new Ball();
   platform = new Platform();
-
   for (let rowNumber = 0; rowNumber < rowAmount; rowNumber++) {
     //row
     for (let brickNumber = 0; brickNumber < 5; brickNumber++) {
@@ -35,7 +39,6 @@ function setup() {
     }
   }
 }
-window.setup = setup;
 
 function draw() {
   background("grey");
@@ -61,7 +64,9 @@ function draw() {
     brick.draw();
   }
 
-  ball.draw();
+  if (lives != 0) {
+    ball.draw();
+  }
 
   platform.draw();
 }
@@ -93,11 +98,31 @@ function startScreen() {
 }
 
 function winScreen() {
-  background(0, 255, 0);
+  push();
+  fill("grey");
+  rect(200, 250, 400, 200);
   textSize(40);
-  fill(0);
-  text("You saved the CROC!", 210, 200);
-  text("Press r to replay.", 255, 300);
+  fill(0, 0, 0);
+  text("YOU WIN", 290, 330);
+  fill(0, 255, 0);
+  rect(290, 360, 220, 50);
+  textSize(30);
+  fill(0, 0, 0);
+  text("Press to play", 310, 395);
+  pop();
+
+  if (
+    mouseIsPressed &&
+    mouseX >= 290 &&
+    mouseX <= 510 &&
+    mouseY >= 360 &&
+    mouseY <= 410
+  ) {
+    gameState = "play";
+    lives = 3;
+    bricks = [];
+    createAssets();
+  }
 }
 
 function loseScreen() {
@@ -122,5 +147,8 @@ function loseScreen() {
     mouseY <= 410
   ) {
     gameState = "play";
+    lives = 3;
+    bricks = [];
+    createAssets();
   }
 }

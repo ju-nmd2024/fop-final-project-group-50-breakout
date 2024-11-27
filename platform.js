@@ -18,6 +18,7 @@ export default class Platform {
     }
   }
   draw() {
+    fill("white");
     rect(this.xPos, this.yPos, this.width, 20);
   }
 }
