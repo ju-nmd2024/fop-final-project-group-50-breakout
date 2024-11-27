@@ -2,10 +2,10 @@ import { width } from "./game.js";
 
 export default class Platform {
   constructor() {
-    this.xPos = width / 2;
+    this.width = 120;
+    this.xPos = width / 2 - this.width / 2;
     this.yPos = 570;
     this.velocity = 8;
-    this.width = 120;
   }
 
   update() {
