@@ -42,12 +42,14 @@ function draw() {
 
   if (gameState === "start") {
     startScreen();
+    ball.draw();
   }
   if (gameState === "play") {
     if (gameScore.lives === 0) {
       gameState = "lose";
     }
 
+    ball.draw();
     ball.update();
     platform.update();
     textSize(30);
@@ -59,12 +61,21 @@ function draw() {
   if (gameState === "lose") {
     loseScreen();
   }
-  for (let brick of bricks) {
-    brick.draw();
+
+  if (gameState === "win") {
+    winScreen();
   }
 
-  if (gameScore.lives != 0) {
-    ball.draw();
+  let destroyedBricksAmount = 0;
+
+  for (let brick of bricks) {
+    brick.draw();
+    if (brick.destroyed) {
+      destroyedBricksAmount += 1;
+    }
+  }
+  if (destroyedBricksAmount === 4) {
+    gameState = "win";
   }
 
   platform.draw();

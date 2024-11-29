@@ -13,22 +13,6 @@ export default class Brick {
   draw() {
     if (!this.destroyed) {
       push();
-
-      // switch (this.hitpoints) {
-      //   case 4:
-      //     fill("red");
-      //     break;
-      //   case 3:
-      //     fill("orange");
-      //     break;
-      //   case 2:
-      //     fill("lime");
-      //     break;
-      //   case 1:
-      //     fill("yellow");
-      //     break;
-      // }
-
       if (this.hitpoints === 4) {
         fill("red");
       }

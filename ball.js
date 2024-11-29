@@ -2,7 +2,7 @@ import { width, height, platform, bricks, gameScore } from "./game.js";
 export default class Ball {
   constructor() {
     this.xPos = width / 2;
-    this.yPos = 500;
+    this.yPos = 530;
     this.radius = 10;
     this.xVelocity = 5;
     this.yVelocity = 5;
