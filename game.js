@@ -41,7 +41,7 @@ function createAssets() {
 }
 
 function draw() {
-  background("grey");
+  background(32, 32, 32);
 
   if (gameState === "start") {
     startScreen();
@@ -54,8 +54,9 @@ function draw() {
     ball.update();
     platform.update();
     textSize(30);
-    fill(0, 0, 0);
-    text(`lives = ${lives}`, 10, 30);
+    textStyle(BOLD);
+    fill(255);
+    text(`lives left = ${lives}`, 10, 35);
   }
   if (gameState === "lose") {
     loseScreen();
@@ -74,16 +75,20 @@ window.draw = draw;
 
 function startScreen() {
   push();
-  fill("grey");
-  rect(200, 250, 400, 200);
-  textSize(40);
-  fill(0, 0, 0);
-  text("BREAKOUT", 290, 330);
-  fill(0, 255, 0);
-  rect(290, 360, 220, 50);
+  // fill("grey");
+  // rect(200, 250, 400, 200);
+  textSize(50);
+  fill(255);
+  textStyle(BOLD);
+  text("BREAKOUT", 260, 330);
+  stroke(255);
+  strokeWeight(3);
+  fill(32, 32, 32);
+  rect(290, 360, 220, 50, 10);
+  noStroke();
   textSize(30);
-  fill(0, 0, 0);
-  text("Press to play", 310, 395);
+  fill(255);
+  text("press to play", 307, 395);
   pop();
 
   if (
@@ -99,16 +104,22 @@ function startScreen() {
 
 function winScreen() {
   push();
-  fill("grey");
-  rect(200, 250, 400, 200);
+  // fill("grey");
+  // rect(200, 250, 400, 200);
   textSize(40);
-  fill(0, 0, 0);
+  textSize(50);
+  fill(255);
+  textStyle(BOLD);
   text("YOU WIN", 290, 330);
-  fill(0, 255, 0);
-  rect(290, 360, 220, 50);
+  fill(255, 0, 0);
+  stroke(255);
+  strokeWeight(3);
+  fill(32, 32, 32);
+  rect(290, 360, 220, 50, 10);
+  noStroke();
   textSize(30);
-  fill(0, 0, 0);
-  text("Press to play", 310, 395);
+  fill(255);
+  text("press to replay", 294, 395);
   pop();
 
   if (
@@ -127,16 +138,21 @@ function winScreen() {
 
 function loseScreen() {
   push();
-  fill("grey");
-  rect(200, 250, 400, 200);
-  textSize(40);
-  fill(0, 0, 0);
-  text("GAME OVER", 290, 330);
+  // fill("grey");
+  // rect(200, 250, 400, 200);
+  textSize(50);
+  fill(255);
+  textStyle(BOLD);
+  text("GAME OVER", 245, 330);
   fill(255, 0, 0);
-  rect(290, 360, 220, 50);
+  stroke(255);
+  strokeWeight(3);
+  fill(32, 32, 32);
+  rect(290, 360, 220, 50, 10);
+  noStroke();
   textSize(30);
-  fill(0, 0, 0);
-  text("Press to retry", 310, 395);
+  fill(255);
+  text("press to retry", 305, 395);
   pop();
 
   if (

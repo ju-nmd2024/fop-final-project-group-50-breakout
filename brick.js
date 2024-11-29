@@ -41,8 +41,8 @@ export default class Brick {
       if (this.hitpoints === 1) {
         fill("yellow");
       }
-
-      rect(this.xPos, this.yPos, this.width, this.height);
+      noStroke();
+      rect(this.xPos, this.yPos, this.width, this.height, 10);
       pop();
     }
   }

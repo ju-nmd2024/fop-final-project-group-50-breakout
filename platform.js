@@ -18,7 +18,8 @@ export default class Platform {
     }
   }
   draw() {
+    noStroke();
     fill("white");
-    rect(this.xPos, this.yPos, this.width, 20);
+    rect(this.xPos, this.yPos, this.width, 20, 5);
   }
 }
