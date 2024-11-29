@@ -41,18 +41,34 @@ export default class Ball {
     for (let brick of bricks) {
       if (
         !brick.destroyed &&
-        this.xPos + this.radius >= brick.xPos &&
-        this.xPos - this.radius <= brick.xPos + brick.width &&
-        this.yPos + this.radius >= brick.yPos &&
-        this.yPos - this.radius <= brick.yPos + brick.height
+        this.xPos + this.radius > brick.xPos &&
+        this.xPos - this.radius < brick.xPos + brick.width &&
+        this.yPos + this.radius > brick.yPos &&
+        this.yPos - this.radius < brick.yPos + brick.height
       ) {
-        this.yVelocity *= -1;
+        //smallest distance from left/right and top/bottom
+        let distanceFromX = Math.min(
+          this.xPos - brick.xPos,
+          brick.xPos + brick.width - this.xPos
+        );
+        let distanceFromY = Math.min(
+          this.yPos - brick.yPos,
+          brick.yPos + brick.height - this.yPos
+        );
+
+        //if left/right is closest bounce as if wall, else as if ground/roof
+        if (distanceFromX < distanceFromY) {
+          this.xVelocity *= -1;
+        } else {
+          this.yVelocity *= -1;
+        }
+
+        //break/damage brick
         if (brick.hitpoints === 1) {
           brick.destroyed = true;
           gameScore.score += 1;
-        } else {
-          brick.hitpoints -= 1;
         }
+        brick.hitpoints -= 1;
       }
     }
   }
