@@ -114,6 +114,7 @@ function startScreen() {
   textStyle(BOLD);
   text("BREAKOUT", 260, 330);
   button("press to play", 307, 395, "green");
+
   pop();
 }
 
@@ -124,7 +125,7 @@ function winScreen() {
   fill(255);
   textStyle(BOLD);
   text("YOU WIN", 290, 330);
-  button("press to play", 295, 395, "green");
+  button("press to replay", 295, 395, "green");
   pop();
 }
 
@@ -134,6 +135,13 @@ function loseScreen() {
   fill(255);
   textStyle(BOLD);
   text("GAME OVER", 245, 330);
-  button("press to play", 305, 395, "red");
+  button("press to retry", 305, 395, "red");
+  pop();
+  push();
+  textSize(30);
+  textStyle(BOLD);
+  fill(255);
+  text(`lives left = ${gameScore.lives}`, 10, 35);
+  text(`Score = ${gameScore.score}`, 630, 35);
   pop();
 }
