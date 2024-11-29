@@ -68,7 +68,7 @@ function draw() {
     textSize(30);
     textStyle(BOLD);
     fill(255);
-    text(`lives left = ${gameScore.lives}`, 10, 35);
+    text(`Lives left = ${gameScore.lives}`, 10, 35);
     text(`Score = ${gameScore.score}`, 630, 35);
     pop();
   }
