@@ -5,7 +5,7 @@ export default class Brick {
     this.width = 140;
     this.height = 40;
     this.destroyed = false;
-    this.hitpoints = hitpoints;
+    this.hitpoints = 1;
   }
 
   update() {}

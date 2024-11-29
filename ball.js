@@ -1,4 +1,4 @@
-import { width, height, platform, bricks, decrementLives } from "./game.js";
+import { width, height, platform, bricks, gameScore } from "./game.js";
 export default class Ball {
   constructor() {
     this.xPos = width / 2;
@@ -27,7 +27,7 @@ export default class Ball {
       this.xVelocity = 5;
       this.yVelocity = 5;
       platform.xPos = width / 2 - platform.width / 2;
-      decrementLives();
+      gameScore.lives -= 1;
     }
 
     if (
@@ -49,6 +49,7 @@ export default class Ball {
         this.yVelocity *= -1;
         if (brick.hitpoints === 1) {
           brick.destroyed = true;
+          gameScore.score += 1;
         } else {
           brick.hitpoints -= 1;
         }

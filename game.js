@@ -9,13 +9,10 @@ export let bricks = [];
 let rowAmount = 4;
 let ball;
 let gameState = "start";
-let lives = 3;
-
-export function decrementLives() {
-  lives -= 1;
-}
-
-console.log(Ball);
+export let gameScore = {
+  lives: 3,
+  score: 0,
+};
 
 function setup() {
   createCanvas(800, 600);
@@ -47,7 +44,7 @@ function draw() {
     startScreen();
   }
   if (gameState === "play") {
-    if (lives === 0) {
+    if (gameScore.lives === 0) {
       gameState = "lose";
     }
 
@@ -56,7 +53,8 @@ function draw() {
     textSize(30);
     textStyle(BOLD);
     fill(255);
-    text(`lives left = ${lives}`, 10, 35);
+    text(`lives left = ${gameScore.lives}`, 10, 35);
+    text(`Score = ${gameScore.score}`, 630, 35);
   }
   if (gameState === "lose") {
     loseScreen();
@@ -65,7 +63,7 @@ function draw() {
     brick.draw();
   }
 
-  if (lives != 0) {
+  if (gameScore.lives != 0) {
     ball.draw();
   }
 
@@ -130,7 +128,7 @@ function winScreen() {
     mouseY <= 410
   ) {
     gameState = "play";
-    lives = 3;
+    gameScore.lives = 3;
     bricks = [];
     createAssets();
   }
@@ -163,7 +161,7 @@ function loseScreen() {
     mouseY <= 410
   ) {
     gameState = "play";
-    lives = 3;
+    gameScore.lives = 3;
     bricks = [];
     createAssets();
   }
