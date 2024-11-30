@@ -1,21 +1,25 @@
 import Platform from "./platform.js";
 import Brick from "./brick.js";
 import Ball from "./ball.js";
+import Powerup from "./powerup.js";
 
-export const width = 800;
+export const width = 750;
 export const height = 600;
 export let platform;
 export let bricks = [];
+const powerups = [];
 let rowAmount = 4;
 let ball;
 let gameState = "start";
+const powerupAmount = 5;
+const powerupTypes = ["powerball", "slowball", "wideplatform"];
 export let gameScore = {
   lives: 3,
   score: 0,
 };
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(width, height);
   createAssets();
 }
 window.setup = setup;
@@ -28,13 +32,31 @@ function createAssets() {
     for (let brickNumber = 0; brickNumber < 5; brickNumber++) {
       bricks.push(
         new Brick(
-          10 + brickNumber * 160,
-          0 + (rowNumber + 1) * 50,
+          75 + brickNumber * 150,
+          25 + (rowNumber + 1) * 50,
           rowAmount - rowNumber
         )
       );
     }
   }
+  generatePowerups();
+}
+
+function generatePowerups() {
+  let n = 0;
+  while (n < powerupAmount) {
+    const index = Math.floor(Math.random() * bricks.length);
+    const powerup =
+      powerupTypes[Math.floor(Math.random() * powerupTypes.length)];
+    if (!powerups.some((powerupObject) => powerupObject.index === index)) {
+      powerups.push({
+        index: index,
+        powerup: new Powerup(bricks[index].xPos, bricks[index].yPos, powerup),
+      });
+      n++;
+    }
+  }
+  console.log(powerups);
 }
 
 function draw() {
@@ -42,9 +64,14 @@ function draw() {
   let destroyedBricksAmount = 0;
 
   for (let brick of bricks) {
-    brick.draw();
+    // brick.draw();
     if (brick.destroyed) {
       destroyedBricksAmount += 1;
+    }
+
+    for (let powerupObject of powerups) {
+      powerupObject.powerup.update();
+      powerupObject.powerup.draw();
     }
   }
   if (destroyedBricksAmount === bricks.length) {
@@ -69,7 +96,7 @@ function draw() {
     textStyle(BOLD);
     fill(255);
     text(`Lives left = ${gameScore.lives}`, 10, 35);
-    text(`Score = ${gameScore.score}`, 630, 35);
+    text(`Score = ${gameScore.score}`, 590, 35);
     pop();
   }
   if (gameState === "lose") {
@@ -82,16 +109,18 @@ function draw() {
 }
 window.draw = draw;
 
-function button(buttonText, x, y, color) {
+function button(buttonText, color) {
   push();
+  rectMode(CENTER);
+  textAlign(CENTER, CENTER);
   fill(color);
   stroke(255);
   strokeWeight(3);
-  rect(290, 360, 220, 50, 10);
+  rect(width / 2, height / 1.5, 250, 50, 10);
   noStroke();
   textSize(30);
   fill(255);
-  text(buttonText, x, y);
+  text(buttonText, width / 2, height / 1.5);
   pop();
 
   if (
@@ -109,39 +138,42 @@ function button(buttonText, x, y, color) {
 }
 function startScreen() {
   push();
+  textAlign(CENTER);
   textSize(50);
   fill(255);
   textStyle(BOLD);
-  text("BREAKOUT", 260, 330);
-  button("press to play", 307, 395, "green");
+  text("BREAKOUT", width / 2, 330);
+  button("press to play", "green");
 
   pop();
 }
 
 function winScreen() {
   push();
+  textAlign(CENTER);
   textSize(40);
   textSize(50);
   fill(255);
   textStyle(BOLD);
-  text("YOU WIN", 290, 330);
-  button("press to replay", 295, 395, "green");
+  text("YOU WIN", width / 2, 330);
+  button("press to replay", "green");
   pop();
 }
 
 function loseScreen() {
   push();
+  textAlign(CENTER);
   textSize(50);
   fill(255);
   textStyle(BOLD);
-  text("GAME OVER", 245, 330);
-  button("press to retry", 305, 395, "red");
+  text("GAME OVER", width / 2, 330);
+  button("press to retry", "red");
   pop();
   push();
   textSize(30);
   textStyle(BOLD);
   fill(255);
   text(`lives left = ${gameScore.lives}`, 10, 35);
-  text(`Score = ${gameScore.score}`, 630, 35);
+  text(`Score = ${gameScore.score}`, 590, 35);
   pop();
 }

@@ -59,19 +59,19 @@ export default class Ball {
     for (let brick of bricks) {
       if (
         !brick.destroyed &&
-        this.xPos + this.radius > brick.xPos &&
-        this.xPos - this.radius < brick.xPos + brick.width &&
-        this.yPos + this.radius > brick.yPos &&
-        this.yPos - this.radius < brick.yPos + brick.height
+        this.xPos + this.radius > brick.xPos - brick.width / 2 &&
+        this.xPos - this.radius < brick.xPos + brick.width / 2 &&
+        this.yPos + this.radius > brick.yPos - brick.height / 2 &&
+        this.yPos - this.radius < brick.yPos + brick.height / 2
       ) {
         //smallest distance from left/right and top/bottom
         let distanceFromX = Math.min(
-          this.xPos - brick.xPos,
-          brick.xPos + brick.width - this.xPos
+          this.xPos - (brick.xPos - brick.width / 2),
+          brick.xPos + brick.width / 2 - this.xPos
         );
         let distanceFromY = Math.min(
-          this.yPos - brick.yPos,
-          brick.yPos + brick.height - this.yPos
+          this.yPos - (brick.yPos - brick.height / 2),
+          brick.yPos + brick.height / 2 - this.yPos
         );
 
         //if left/right is closest bounce as if wall, else as if ground/roof

@@ -13,6 +13,7 @@ export default class Brick {
   draw() {
     if (!this.destroyed) {
       push();
+      rectMode(CENTER);
       if (this.hitpoints === 4) {
         fill("red");
       }
