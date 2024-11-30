@@ -4,7 +4,7 @@ export default class Ball {
     this.xPos = width / 2;
     this.yPos = 530;
     this.radius = 10;
-    this.xVelocity = 5;
+    this.xVelocity = 0;
     this.yVelocity = 5;
   }
 
@@ -12,32 +12,50 @@ export default class Ball {
     this.xPos += this.xVelocity;
     this.yPos += this.yVelocity;
 
+    //wall bounce
     if (this.xPos - this.radius < 0 || this.xPos + this.radius > width) {
-      console.log("hit wall");
       this.xVelocity *= -1;
     }
-
+    //roof bounce
     if (this.yPos - this.radius < 0) {
-      console.log("hit ground");
       this.yVelocity *= -1;
     }
+    //floor death check
     if (this.yPos + this.radius > height + 100) {
       this.yPos = 500;
       this.xPos = width / 2;
-      this.xVelocity = 5;
+      this.xVelocity = 0;
       this.yVelocity = 5;
       platform.xPos = width / 2 - platform.width / 2;
       gameScore.lives -= 1;
     }
 
-    if (
-      this.xPos >= platform.xPos &&
-      this.xPos <= platform.xPos + platform.width &&
-      this.yPos + this.radius === platform.yPos
-    ) {
-      this.yVelocity *= -1;
+    //paddle bounce
+
+    if (this.yPos + this.radius === platform.yPos) {
+      for (let i = 0; i <= platform.width; i++) {
+        if (
+          Math.abs(this.xPos - (platform.xPos + i)) <= 3 &&
+          i < platform.width / 2
+        ) {
+          console.log("left");
+          this.yVelocity *= -1;
+          this.xVelocity = -0.15 * (platform.width / 2 - i);
+          break;
+        }
+        if (
+          Math.abs(this.xPos - (platform.xPos + i)) <= 3 &&
+          i > platform.width / 2
+        ) {
+          console.log("right");
+          this.yVelocity *= -1;
+          this.xVelocity = -0.15 * (platform.width / 2 - i);
+          break;
+        }
+      }
     }
-    //brick check
+
+    //brick bounce
     for (let brick of bricks) {
       if (
         !brick.destroyed &&
