@@ -6,6 +6,7 @@ export default class Ball {
     this.radius = 10;
     this.xVelocity = 0;
     this.yVelocity = 5;
+    this.powerup;
   }
 
   update() {
@@ -31,25 +32,17 @@ export default class Ball {
     }
 
     //paddle bounce
-
     if (this.yPos + this.radius === platform.yPos) {
       for (let i = 0; i <= platform.width; i++) {
         if (
-          Math.abs(this.xPos - (platform.xPos + i)) <= 3 &&
-          i < platform.width / 2
+          (Math.abs(this.xPos - (platform.xPos + i)) <= 3 &&
+            i < platform.width / 2) ||
+          (Math.abs(this.xPos - (platform.xPos + i)) <= 3 &&
+            i > platform.width / 2)
         ) {
-          console.log("left");
           this.yVelocity *= -1;
           this.xVelocity = -0.15 * (platform.width / 2 - i);
-          break;
-        }
-        if (
-          Math.abs(this.xPos - (platform.xPos + i)) <= 3 &&
-          i > platform.width / 2
-        ) {
-          console.log("right");
-          this.yVelocity *= -1;
-          this.xVelocity = -0.15 * (platform.width / 2 - i);
+
           break;
         }
       }
@@ -82,13 +75,29 @@ export default class Ball {
         }
 
         //break/damage brick
-        if (brick.hitpoints === 1) {
+        if (
+          brick.hitpoints === 1 ||
+          gameScore.currentPowerups.some(
+            (powerup) => powerup.type === "powerball"
+          )
+        ) {
           brick.destroyed = true;
           gameScore.score += 1;
         }
         brick.hitpoints -= 1;
       }
     }
+
+    // for (let powerup of powerups) {
+    //   if (
+    //     !powerup.consumed &&
+    //     Math.abs(this.xPos - powerup.xPos) <= this.radius * 2 &&
+    //     Math.abs(this.yPos - powerup.yPos) <= this.radius * 2
+    //   ) {
+    //     powerup.consumed = true;
+    //     gameScore.currentPowerups.push(powerup.type);
+    //   }
+    // }
   }
   draw() {
     fill(255, 255, 255);
