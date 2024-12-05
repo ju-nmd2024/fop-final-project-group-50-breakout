@@ -10,14 +10,13 @@ export let bricks = [];
 export let powerups = [];
 let rowAmount = 4;
 let ball;
-let ball2;
 let gameState = "start";
-const powerupAmount = 3;
-const powerupTypes = ["powerball", "wideplatform"];
+const powerupAmount = 3; // extra
+const powerupTypes = ["powerball", "wideplatform"]; // extra
 export let gameScore = {
   lives: 3,
   score: 0,
-  currentPowerups: [],
+  currentPowerups: [], // extra
 };
 
 // SETUP
@@ -30,7 +29,6 @@ window.setup = setup;
 // Ball, platform, bricks, powerup
 function createAssets() {
   ball = new Ball();
-  ball2 = new Ball();
   platform = new Platform();
   for (let rowNumber = 0; rowNumber < rowAmount; rowNumber++) {
     //row
@@ -44,9 +42,11 @@ function createAssets() {
       );
     }
   }
+  //extra
   generatePowerups();
 }
 
+//generate powerups, extra feature
 function generatePowerups() {
   let n = 0;
   while (n < powerupAmount) {
@@ -60,16 +60,14 @@ function generatePowerups() {
       n++;
     }
   }
-
-  console.log(powerups);
 }
 
 // DRAW
 function draw() {
   background(32, 32, 32);
-  let destroyedBricksAmount = 0;
 
   //draw menu
+  //we can put this here because it handles what text to show inside itself.
   menu();
 
   //draw platform
@@ -81,6 +79,7 @@ function draw() {
   }
 
   //powerups
+  //extra feature starts here
   for (let powerup of powerups) {
     powerup.draw();
     powerup.update();
@@ -95,14 +94,11 @@ function draw() {
       break;
     }
     powerup.duration -= 1;
-
-    switch (powerup.type) {
-      case "powerball":
-        ball.powerup = powerup;
-
-        break;
-    }
   }
+  //ends here
+
+  //temporary variable
+  let destroyedBricksAmount = 0;
 
   //bricks
   for (let brick of bricks) {
@@ -117,17 +113,19 @@ function draw() {
     gameState = "win";
   }
 
+  //lose check
+  if (gameScore.lives === 0) {
+    gameState = "lose";
+  }
+
   //playing state
   if (gameState === "play") {
-    if (gameScore.lives === 0) {
-      gameState = "lose";
-    }
     ball.draw();
     ball.update();
     platform.update();
   }
 
-  //lives and score
+  //the life counter etc. are shown everywhere except on the start menu
   if (gameState !== "start") {
     push();
     textSize(30);
@@ -149,6 +147,7 @@ function draw() {
 window.draw = draw;
 
 //menu
+//it changes text depending on the game state
 function menu() {
   push();
   textAlign(CENTER);
@@ -171,6 +170,7 @@ function menu() {
 }
 
 //play button
+//sets state to play and resets variables and assets, bricks etc.
 function button(buttonText, color) {
   push();
   rectMode(CENTER);

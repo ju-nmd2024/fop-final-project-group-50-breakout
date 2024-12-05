@@ -10,18 +10,19 @@ export default class Ball {
   }
 
   update() {
+    // ball movement
     this.xPos += this.xVelocity;
     this.yPos += this.yVelocity;
 
-    //wall bounce
+    // wall bounce
     if (this.xPos - this.radius < 0 || this.xPos + this.radius > width) {
       this.xVelocity *= -1;
     }
-    //roof bounce
+    // roof bounce
     if (this.yPos - this.radius < 0) {
       this.yVelocity *= -1;
     }
-    //floor death check
+    // floor death check
     if (this.yPos + this.radius > height + 100) {
       this.yPos = 500;
       this.xPos = width / 2;
@@ -31,24 +32,24 @@ export default class Ball {
       gameScore.lives -= 1;
     }
 
-    //paddle bounce
+    // paddle bounce
+    // extra feature, ball bounces at different angle depending where it hits the platform
     if (this.yPos + this.radius === platform.yPos) {
+      // loops through all x positions within the platforms width
       for (let i = 0; i <= platform.width; i++) {
-        if (
-          (Math.abs(this.xPos - (platform.xPos + i)) <= 3 &&
-            i < platform.width / 2) ||
-          (Math.abs(this.xPos - (platform.xPos + i)) <= 3 &&
-            i > platform.width / 2)
-        ) {
+        // to account for some error, (the balls ypos increases too fast and falls through the platform before finding a matching platform xpos)
+        // we istead check if the positions are equal with margin of 3. take the difference and check if smaller or equal to 3
+        if (Math.abs(this.xPos - (platform.xPos + i)) <= 3) {
           this.yVelocity *= -1;
+          // left side of platform vel. is negative, right side positive. closer to middle less vel.
           this.xVelocity = -0.15 * (platform.width / 2 - i);
-
+          // break to not loop and double bounce
           break;
         }
       }
     }
 
-    //brick bounce
+    // brick bounce
     for (let brick of bricks) {
       if (
         !brick.destroyed &&
@@ -57,7 +58,7 @@ export default class Ball {
         this.yPos + this.radius > brick.yPos - brick.height / 2 &&
         this.yPos - this.radius < brick.yPos + brick.height / 2
       ) {
-        //smallest distance from left/right and top/bottom
+        // smallest distance from left/right and top/bottom
         let distanceFromX = Math.min(
           this.xPos - (brick.xPos - brick.width / 2),
           brick.xPos + brick.width / 2 - this.xPos
@@ -67,14 +68,15 @@ export default class Ball {
           brick.yPos + brick.height / 2 - this.yPos
         );
 
-        //if left/right is closest bounce as if wall, else as if ground/roof
+        // if left/right is closest bounce as if wall, else as if ground/roof
         if (distanceFromX < distanceFromY) {
           this.xVelocity *= -1;
         } else {
           this.yVelocity *= -1;
         }
 
-        //break/damage brick
+        // break/damage brick
+        // also extra feature where we check if player has powerball
         if (
           brick.hitpoints === 1 ||
           gameScore.currentPowerups.some(
@@ -87,17 +89,6 @@ export default class Ball {
         brick.hitpoints -= 1;
       }
     }
-
-    // for (let powerup of powerups) {
-    //   if (
-    //     !powerup.consumed &&
-    //     Math.abs(this.xPos - powerup.xPos) <= this.radius * 2 &&
-    //     Math.abs(this.yPos - powerup.yPos) <= this.radius * 2
-    //   ) {
-    //     powerup.consumed = true;
-    //     gameScore.currentPowerups.push(powerup.type);
-    //   }
-    // }
   }
   draw() {
     fill(255, 255, 255);

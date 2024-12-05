@@ -10,14 +10,15 @@ export default class Platform {
   }
 
   update() {
+    // platform movement
     if (keyIsDown(LEFT_ARROW)) {
       this.xPos = max(0, this.xPos - this.velocity);
     }
-
     if (keyIsDown(RIGHT_ARROW)) {
       this.xPos = min(width - this.width, this.xPos + this.velocity);
     }
 
+    // check if powerup is picked up, extra feature
     for (let powerup of powerups) {
       if (
         !powerup.consumed &&
@@ -33,7 +34,7 @@ export default class Platform {
         });
       }
     }
-
+    // check if a wide platform powerup exists in current powerups, then makes platform wider
     if (
       gameScore.currentPowerups.some(
         (powerup) => powerup.type === "wideplatform"

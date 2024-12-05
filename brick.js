@@ -13,7 +13,11 @@ export default class Brick {
   draw() {
     if (!this.destroyed) {
       push();
+      // changed rectangle mode to center which puts the start of x and y position in the center of the rectangle.
+      // some brick position calculations may look a bit different because of this
       rectMode(CENTER);
+
+      //different color depending on hitpoints left
       if (this.hitpoints === 4) {
         fill("red");
       }
