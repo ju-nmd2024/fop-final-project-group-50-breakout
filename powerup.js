@@ -19,6 +19,7 @@ export default class Powerup {
   draw() {
     if (!this.consumed) {
       push();
+      //https://chatgpt.com/share/67517d63-a4a8-800f-b130-38fc4f9b0600
       colorMode(HSB); //aksed chatgpt to help with rainbow strobe effect in p5
       rectMode(CENTER);
       angleMode(DEGREES);
